@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
 import com.example.technical.Api.MovieApi
+import com.example.technical.BuildConfig
 import com.example.technical.Helper.IEssentials
 import com.example.technical.Helper.Toaster
 import com.example.technical.Model.Movie
@@ -17,6 +18,7 @@ import com.example.technical.R
 import com.example.technical.Ui.Fragments.FragmentMain
 import com.example.technical.ViewModel.ViewModelMovie
 import com.example.technical.databinding.ActivityMainBinding
+import com.google.gson.internal.GsonBuildConfig
 
 class MainActivity : AppCompatActivity(), IEssentials {
 

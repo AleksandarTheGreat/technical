@@ -1,5 +1,6 @@
 package com.example.technical.Ui.Fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -62,19 +63,21 @@ class FragmentMain : Fragment(), IEssentials {
                 Toaster.text(requireContext(), "The movie list is empty");
             }
 
-            val adapter = MovieAdapter(requireContext(), parentFragmentManager,list);
-            binding.recyclerViewMain.layoutManager = LinearLayoutManager(requireContext(),
-                LinearLayoutManager.VERTICAL, false);
-            binding.recyclerViewMain.setHasFixedSize(true);
-            binding.recyclerViewMain.adapter = adapter;
+            binding.recyclerViewMain.apply {
+                val adapter = MovieAdapter(requireContext(), parentFragmentManager,list);
+
+                this.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false);
+                this.setHasFixedSize(true)
+                this.adapter = adapter;
+            }
         }
+
     }
 
     override fun addEventListeners() {
         binding.searchViewMain.setOnQueryTextListener(
             object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-
                     return true
                 }
 
@@ -84,12 +87,19 @@ class FragmentMain : Fragment(), IEssentials {
                     }
 
                     runnable = Runnable {
+                        binding.progressBarMain.visibility = View.VISIBLE
                         if (newText != null && newText.isEmpty()){
-                            viewModelMovie.loadAll({}, { message ->
+                            viewModelMovie.loadAll({
+                                binding.progressBarMain.visibility = View.GONE
+                            }, { message ->
+                                binding.progressBarMain.visibility = View.GONE
                                 Toaster.alert(requireContext(), message);
                             });
                         } else {
-                            viewModelMovie.loadSearchedMovies(newText!!, {}, { message ->
+                            viewModelMovie.loadSearchedMovies(newText!!, {
+                                binding.progressBarMain.visibility = View.GONE
+                            }, { message ->
+                                binding.progressBarMain.visibility = View.GONE
                                 Toaster.alert(requireContext(), message);
                             });
                         }
@@ -103,8 +113,14 @@ class FragmentMain : Fragment(), IEssentials {
         )
 
         binding.chipGroupMain.setOnCheckedStateChangeListener { group, checkedIds ->
+            binding.progressBarMain.visibility = View.VISIBLE
             if (checkedIds.isEmpty()){
-                viewModelMovie.loadAll({}, {});
+                viewModelMovie.loadAll({
+                    binding.progressBarMain.visibility = View.GONE
+                }, { message ->
+                    binding.progressBarMain.visibility = View.GONE
+                    Toaster.text(requireContext(), message);
+                });
                 Log.d("Tag", "Nothing is checked");
                 return@setOnCheckedStateChangeListener
             }
@@ -115,7 +131,10 @@ class FragmentMain : Fragment(), IEssentials {
             val tag = chip.tag.toString();
 
             Log.d("Tag", "${text} - ${tag}");
-            viewModelMovie.loadGenreMovies(tag.toInt(), {}, { message ->
+            viewModelMovie.loadGenreMovies(tag.toInt(), {
+                binding.progressBarMain.visibility = View.GONE;
+            }, { message ->
+                binding.progressBarMain.visibility = View.GONE;
                 Toaster.alert(requireContext(), message);
             });
         }
