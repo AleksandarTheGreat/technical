@@ -138,6 +138,14 @@ class FragmentMain : Fragment(), IEssentials {
                 Toaster.alert(requireContext(), message);
             });
         }
+
+        binding.imageViewFavorites.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, FragmentFavorites.newInstance())
+                .setReorderingAllowed(true)
+                .addToBackStack("backstack")
+                .commit();
+        }
     }
 
     companion object {

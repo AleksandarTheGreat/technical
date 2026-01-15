@@ -19,7 +19,6 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_margin="12dp"
-            android:padding="4dp"
             android:src="@drawable/ic_logo"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,6 +34,17 @@
             android:text="Movies App"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/imageViewLogo"
+            app:layout_constraintRight_toLeftOf="@id/imageViewFavorites"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/imageViewFavorites"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="12dp"
+            android:src="@mipmap/ic_launcher"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
